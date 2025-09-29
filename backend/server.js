@@ -87,10 +87,15 @@ const sanitizeInput = (input) => {
 
 // Email transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
@@ -162,8 +167,17 @@ app.post('/api/quote', formLimiter, validateQuoteInput, handleValidationErrors, 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: `New Quote Request - ${service}`,
-      text: `New Quote Request\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nService: ${service}\nMessage: ${message}`
+      subject: `🏗️ New Quote Request - ${service}`,
+      html: `
+        <h2>New Quote Request</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Service:</strong> ${service}</p>
+        <p><strong>Message:</strong> ${message}</p>
+        <hr>
+        <p><em>Sent from Gupta Contractor Website</em></p>
+      `
     };
 
     await transporter.sendMail(mailOptions);
@@ -194,8 +208,18 @@ app.post('/api/worker', formLimiter, validateWorkerInput, handleValidationErrors
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: 'New Worker Application',
-      text: `New Worker Application\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nSkills: ${skills}\nExperience: ${experience}\nLocation: ${location}`
+      subject: '👷 New Worker Application',
+      html: `
+        <h2>New Worker Application</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Skills:</strong> ${skills}</p>
+        <p><strong>Experience:</strong> ${experience}</p>
+        <p><strong>Location:</strong> ${location}</p>
+        <hr>
+        <p><em>Sent from Gupta Contractor Website</em></p>
+      `
     };
 
     await transporter.sendMail(mailOptions);
@@ -226,8 +250,17 @@ app.post('/api/contact', formLimiter, validateContactInput, handleValidationErro
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: 'New Contact Form Submission',
-      text: `Contact Form Submission\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nService: ${service}\nMessage: ${message}`
+      subject: '📧 New Contact Form Submission',
+      html: `
+        <h2>Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Service:</strong> ${service}</p>
+        <p><strong>Message:</strong> ${message}</p>
+        <hr>
+        <p><em>Sent from Gupta Contractor Website</em></p>
+      `
     };
 
     await transporter.sendMail(mailOptions);

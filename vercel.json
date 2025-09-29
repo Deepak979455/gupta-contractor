@@ -1,1 +1,17 @@
-{}
+{
+  "functions": {
+    "api/*.js": {
+      "runtime": "@vercel/node"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  "env": {
+    "EMAIL_USER": "guptaconstructor@gmail.com",
+    "EMAIL_PASS": "yliyytagntcsbnsy"
+  }
+}
